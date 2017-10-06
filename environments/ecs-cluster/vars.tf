@@ -25,3 +25,10 @@ variable "credentials" {
     secret_key = ""
   }
 }
+
+variable "ecs_services" {
+  type = "list"
+  default = [
+    "test"
+  ]
+}

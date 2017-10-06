@@ -26,3 +26,8 @@ module "cluster-instances" {
   aws_iam_instance_profile = "${module.iam-role.aws_iam_instance_profile}"
 }
 
+module "ecs-services" {
+  source = "../../modules/ecs-services"
+  ecs_cluster_id = "${module.cluster-instances.ecs_cluster_id}"
+  ecs_services = "${var.ecs_services}"
+}
