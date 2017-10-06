@@ -25,5 +25,5 @@ resource "aws_ecs_service" "default" {
   cluster       = "${var.ecs_cluster_id}"
   desired_count = 2
 
-  task_definition = "${aws_ecs_task_definition.default[count.index].family}:${aws_ecs_task_definition.default[count.index].revision}"
+  task_definition = "${element(aws_ecs_task_definition.default,count.index).family}:${element(aws_ecs_task_definition.default,count.index).revision}"
 }
