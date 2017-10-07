@@ -1,3 +1,27 @@
+
+resource "aws_alb_target_group" "default" {
+  count    = "${length(var.ecs_services)}"
+  name     = "TG-${element(var.ecs_services,count.index)}-${var.environment}"
+  port     = 80
+  protocol = "HTTP"
+  vpc_id   = "${var.vpc_id}"
+}
+
+resource "aws_alb_listener" "front_end" {
+  load_balancer_arn = "${var.ec2_alb_arn}"
+  port              = 80
+  protocol          = "HTTP"
+
+  default_action {
+    target_group_arn = "${aws_alb_target_group.default.0.arn}"
+    type             = "forward"
+  }
+
+  depends_on = [
+	"aws_alb_target_group.default"
+  ] 
+}
+
 resource "aws_ecs_task_definition" "default" {
   count = "${length(var.ecs_services)}"
   family = "TSK-${element(var.ecs_services,count.index)}"
@@ -39,4 +63,9 @@ resource "aws_ecs_service" "default" {
   	container_name = "default"
   	container_port = 80
   }
+
+  depends_on = [
+	"aws_alb_listener.front_end",
+	"aws_ecs_task_definition.default"
+  ]
 }
