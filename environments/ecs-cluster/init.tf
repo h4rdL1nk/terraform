@@ -23,13 +23,13 @@ module "cluster-instances" {
   aws_security_group = "${module.base-network.aws_security_group_id}"
   aws_subnet_ids = "${module.base-network.aws_subnet_ids}"
   aws_region = "${var.aws_region}"
-  aws_iam_instance_profile = "${module.iam-role.aws_iam_instance_profile}"
+  aws_iam_instance_profile = "${module.iam-role.iam_instance_profile_arn}"
 }
 
 module "ecs-services" {
   source  = "../../modules/ecs-services"
   ecs_cluster_id = "${module.cluster-instances.ecs_cluster_id}"
   ecs_services = "${var.aws_ecs_services}"
-  iam_role_arn = "${module.iam-role.aws_iam_role_arn}"
+  iam_role_arn = "${module.iam-role.iam_role_arn}"
 }
 
