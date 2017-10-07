@@ -28,9 +28,11 @@ module "cluster-instances" {
 
 module "ecs-services" {
   source  = "../../modules/ecs-services"
+  environment = "${var.environment}"
   vpc_id = "${module.base-network.vpc_id}"
   ecs_cluster_id = "${module.cluster-instances.ecs_cluster_id}"
   ecs_services = "${var.aws_ecs_services}"
   iam_role_arn = "${module.iam-role.iam_role_arn}"
+  ec2_alb_arn = "${module.cluster-instances.ec2_alb_arn}"
 }
 
