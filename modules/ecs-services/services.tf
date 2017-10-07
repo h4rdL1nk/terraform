@@ -24,15 +24,6 @@ resource "aws_ecs_task_definition" "default" {
 DEFINITION
 }
 
-resource "aws_alb_target_group" "default" {
-  name     = "TG-${element(var.ecs_services,count.index)}-${var.environment}"
-  port     = 80
-  protocol = "HTTP"
-  vpc_id   = "${var.vpc_id}"
-}
-
-#TODO: Associate alb_listener to target-group
-
 resource "aws_ecs_service" "default" {
   count = "${length(var.ecs_services)}"
   name          = "SVC-${element(var.ecs_services,count.index)}"
