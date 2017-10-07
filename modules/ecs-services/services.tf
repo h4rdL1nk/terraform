@@ -24,6 +24,8 @@ resource "aws_ecs_service" "default" {
   name          = "SVC-${element(var.ecs_services,count.index)}"
   cluster       = "${var.ecs_cluster_id}"
   desired_count = 2
-
-  task_definition = "${aws_ecs_task_definition.default.0.arn}"
+  iam_role = "${var.iam_role_arn}"
+  deployment_maximum_percent = 150
+  deployment_minimum_healthy_percent = 100 
+  task_definition = "${element(aws_ecs_task_definition.default.*.arn,count.index)}"
 }

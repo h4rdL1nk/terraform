@@ -27,7 +27,9 @@ module "cluster-instances" {
 }
 
 module "ecs-services" {
-  source = "../../modules/ecs-services"
+  source  = "../../modules/ecs-services"
   ecs_cluster_id = "${module.cluster-instances.ecs_cluster_id}"
-  ecs_services = "${var.ecs_services}"
+  ecs_services = "${var.aws_ecs_services}"
+  iam_role_arn = "${module.iam-role.aws_iam_role_arn}"
 }
+
