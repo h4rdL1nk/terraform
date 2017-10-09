@@ -26,6 +26,6 @@ variable "credentials" {
 variable "ecs_services" {
   type = "list"
   default = [
-    "test"
+    "test|httpd"
   ]
 }
