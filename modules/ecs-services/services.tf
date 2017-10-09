@@ -1,7 +1,7 @@
 
 resource "aws_alb_target_group" "default" {
   count    = "${length(var.ecs_services)}"
-  name     = "TG-${split('|',element(var.ecs_services,count.index))}-${var.environment}"
+  name     = "TG-${split("|",element(var.ecs_services,count.index))}-${var.environment}"
   port     = 80
   protocol = "HTTP"
   vpc_id   = "${var.vpc_id}"
@@ -24,7 +24,7 @@ resource "aws_alb_listener" "front_end" {
 
 resource "aws_ecs_task_definition" "default" {
   count = "${length(var.ecs_services)}"
-  family = "TSK-${split('|',element(var.ecs_services,count.index))}"
+  family = "TSK-${split("|",element(var.ecs_services,count.index))}"
   container_definitions = <<DEFINITION
 [
   {
@@ -35,7 +35,7 @@ resource "aws_ecs_task_definition" "default" {
       "value": "KEY"
     }],
     "essential": true,
-    "image": "${split('|',element(var.ecs_services,count.index))}",
+    "image": "${split("|",element(var.ecs_services,count.index))}",
     "memory": 250,
     "memoryReservation": 128,
     "portMappings": [
@@ -50,7 +50,7 @@ DEFINITION
 
 resource "aws_ecs_service" "default" {
   count = "${length(var.ecs_services)}"
-  name          = "SVC-${split('|',element(var.ecs_services,count.index))}"
+  name          = "SVC-${split("|",element(var.ecs_services,count.index))}"
   cluster       = "${var.ecs_cluster_id}"
   desired_count = 2
   iam_role = "${var.iam_role_arn}"
