@@ -1,6 +1,5 @@
 
 variable "environment" {}
-variable "department" {}
 variable "vpc_cidr" {}
 
 #Network

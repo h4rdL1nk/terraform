@@ -8,7 +8,6 @@ provider "aws" {
 module "base-network" {
   source = "../../modules/base-network"
   environment = "${var.environment}"
-  department = "${var.department}"
   vpc_cidr = "${var.vpc_cidr}"
 }
 
