@@ -29,6 +29,15 @@ resource "aws_alb_listener" "front_end" {
   ] 
 }
 
+resource "aws_cloudwatch_log_group" "default" {
+  count = "${length(var.ecs_services)}"
+  name = "ecs-service-${element(var.ecs_services,count.index)}-${var.environment}"
+
+  tags {
+    env = "${var.environment}"
+  }
+}
+
 resource "aws_ecs_task_definition" "default" {
   count = "${length(var.ecs_services)}"
   family = "TSK-${element(var.ecs_services,count.index)}"
@@ -41,6 +50,14 @@ resource "aws_ecs_task_definition" "default" {
       "name": "SECRET",
       "value": "KEY"
     }],
+    "logConfiguration": {
+        "logDriver": "awslogs",
+        "options": {
+          "awslogs-group": "ecs-service-${element(var.ecs_services,count.index)}-${var.environment}",
+          "awslogs-region": "${var.aws_region}",
+          "awslogs-stream-prefix": "docker-container"
+        }
+    },
     "essential": true,
     "image": "${element(var.ecs_services,count.index)}",
     "memory": 250,
