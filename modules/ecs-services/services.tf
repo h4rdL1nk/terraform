@@ -8,9 +8,9 @@ resource "aws_alb_target_group" "default" {
   port     = 80
   deregistration_delay = 20
   stickyness {
-	enabled = true
-	type = "lb_cookie"
-	cookie_duration = 86400
+	    enabled = true
+	    type = "lb_cookie"
+	    cookie_duration = 86400
   } 
 }
 
