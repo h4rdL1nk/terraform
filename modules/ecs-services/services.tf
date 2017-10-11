@@ -2,9 +2,16 @@
 resource "aws_alb_target_group" "default" {
   count    = "${length(var.ecs_services)}"
   name     = "TG-${element(var.ecs_services,count.index)}-${var.environment}"
-  port     = 80
-  protocol = "HTTP"
   vpc_id   = "${var.vpc_id}"
+
+  protocol = "HTTP"
+  port     = 80
+  deregistration_delay = 20
+  stickyness {
+	enabled = true
+	type = "lb_cookie"
+	cookie_duration = 86400
+  } 
 }
 
 resource "aws_alb_listener" "front_end" {
