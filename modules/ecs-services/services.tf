@@ -38,6 +38,11 @@ resource "aws_cloudwatch_log_group" "default" {
   }
 }
 
+resource "aws_ecr_repository" "default" {
+  count = "${length(var.ecs_services)}"
+  name = "${element(var.ecs_services,count.index)}"
+}
+
 resource "aws_ecs_task_definition" "default" {
   count = "${length(var.ecs_services)}"
   family = "TSK-${element(var.ecs_services,count.index)}"
