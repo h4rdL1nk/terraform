@@ -1,0 +1,23 @@
+---
+
+- name: Config passmanager host 
+  hosts: passmanager-1 
+  become: true
+  vars_files:
+    - vars/repos.yml
+  roles:
+     - { 
+         role: ansible-role-smd-bootstrap,
+         smd_bootstrap_role_repos_enabled: true,
+         smd_bootstrap_role_chrony_enabled: true,
+         smd_bootstrap_role_timezone_enabled: true,
+         smd_bootstrap_role_rhn_enabled: false,
+         smd_boostrap_role_update_so_enabled: false
+       } 
+     - { role: ansible-role-smd-docker,
+         smd_docker_storage_device: /dev/vdb,
+         smd_docker_bind_network: DOCKER_MGMT,
+         smd_docker_bind_port: 2376
+       }
+       
+
