@@ -1,0 +1,10 @@
+terraform.tfstate
+terraform.tfstate.backup
+.terraform
+.terraform/
+vars
+vars/
+roles
+roles/
+inventory
+inventory/
