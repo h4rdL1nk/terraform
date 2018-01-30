@@ -109,7 +109,7 @@ resource "openstack_compute_floatingip_associate_v2" "jenkins" {
   instance_id = "${openstack_compute_instance_v2.jenkins.id}"
   fixed_ip    = "${openstack_compute_instance_v2.jenkins.network.0.fixed_ip_v4}"
 
-  #provisioner "local-exec" {
-  #  command = "ansible-playbook -e DOCKER_MGMT=${openstack_compute_instance_v2.jenkins.network.0.fixed_ip_v4} -e ansible_host=${openstack_networking_floatingip_v2.jenkins.address} play.yml"
-  #}
+  provisioner "local-exec" {
+    command = "ansible-playbook -e DOCKER_MGMT=${openstack_compute_instance_v2.jenkins.network.0.fixed_ip_v4} -e ansible_host=${openstack_networking_floatingip_v2.jenkins.address} play.yml"
+  }
 }
