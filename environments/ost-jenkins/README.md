@@ -11,7 +11,7 @@ keytool -importkeystore -srckeystore jenkins_keystore.p12 -srcstorepass '****' -
 keytool -list -keystore jenkins_keystore.jks -storepass '****'
 
 #Configure jenkins server in "/etc/sysconfig/jenkins"
-JENKINS_HTTP_PORT="-1"
+JENKINS_PORT="-1"
 JENKINS_HTTPS_PORT="8443"
 JENKINS_HTTPS_KEYSTORE="/var/lib/jenkins/ssl/jenkins_keystore.jks"
 JENKINS_HTTPS_KEYSTORE_PASSWORD="****"
