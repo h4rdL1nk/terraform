@@ -52,14 +52,6 @@ resource "openstack_compute_instance_v2" "passmanager" {
     application = "passmanager"
   }
 
-  #block_device {
-  #  source_type           = "blank"
-  #  destination_type      = "volume"
-  #  volume_size           = 20
-  #  delete_on_termination = true
-  #  device                = "/dev/vdb"
-  #}
-
   network {
     name = "DOCKER_MGMT"
   }
@@ -93,5 +85,3 @@ resource "openstack_compute_floatingip_associate_v2" "passmanager" {
   instance_id = "${openstack_compute_instance_v2.passmanager.id}"
   fixed_ip    = "${openstack_compute_instance_v2.passmanager.network.0.fixed_ip_v4}"
 }
-
-
