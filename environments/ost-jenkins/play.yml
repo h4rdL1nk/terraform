@@ -8,7 +8,7 @@
   roles:
      - { 
          role: ansible-role-smd-bootstrap,
-         smd_repos_repo_proxy: http://proxy2pdi.service.dsn.inet:6666,
+         smd_repos_repo_proxy: 'http://proxy2pdi.service.dsn.inet:6666',
          smd_bootstrap_role_repos_enabled: true,
          smd_bootstrap_role_chrony_enabled: true,
          smd_bootstrap_role_timezone_enabled: true,

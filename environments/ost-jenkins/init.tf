@@ -32,6 +32,20 @@ resource "openstack_compute_secgroup_v2" "jenkins-web" {
     cidr        = "0.0.0.0/0"
   }
 
+  rule {
+    from_port   = 8080
+    to_port     = 8080
+    ip_protocol = "tcp"
+    cidr        = "0.0.0.0/0"
+  }
+
+  rule {
+    from_port   = 8443
+    to_port     = 8443
+    ip_protocol = "tcp"
+    cidr        = "0.0.0.0/0"
+  }
+
 }
 
 #resource "openstack_compute_keypair_v2" "jenkins" {
