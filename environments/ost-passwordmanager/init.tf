@@ -41,7 +41,6 @@ resource "openstack_compute_keypair_v2" "passmanager" {
 
 resource "openstack_compute_instance_v2" "passmanager" {
   name            = "passmanager"
-  #image_id        = "ba8a2f31-8e6c-4b15-a4f4-3398e7202623"
   image_name     = "TID-RH7-3NIC.20171101"
   flavor_name     = "TID-01CPU-04GB-20GB"
   key_pair        = "${openstack_compute_keypair_v2.passmanager.name}"
