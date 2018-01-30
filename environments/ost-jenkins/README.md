@@ -16,3 +16,12 @@ JENKINS_HTTPS_PORT="8443"
 JENKINS_HTTPS_KEYSTORE="/var/lib/jenkins/ssl/jenkins_keystore.jks"
 JENKINS_HTTPS_KEYSTORE_PASSWORD="securepass"
 JENKINS_HTTPS_LISTEN_ADDRESS="0.0.0.0"
+
+#Restart server
+systemctl restart jenkins
+
+#Change jenkins URL setting to SSL
+${JENKINS_HOME}/jenkins.model.JenkinsLocationConfiguration.xml
+    ...
+    jenkins.model.JenkinsLocationConfiguration.xml:  <jenkinsUrl>https://jenkins.wildcard.test:8443/</jenkinsUrl>
+    ...
