@@ -1,0 +1,10 @@
+---
+
+- name: Test 
+  hosts: all
+  become: true
+  tasks:
+    name: Test task
+    debug:
+      msg: "Distro {{ansible_distribution}}"
+

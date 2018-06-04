@@ -19,8 +19,8 @@ resource "openstack_compute_secgroup_v2" "jenkins-web" {
   }
 
   rule {
-    from_port   = 80 
-    to_port     = 80 
+    from_port   = 80
+    to_port     = 80
     ip_protocol = "tcp"
     cidr        = "0.0.0.0/0"
   }
@@ -45,7 +45,6 @@ resource "openstack_compute_secgroup_v2" "jenkins-web" {
     ip_protocol = "tcp"
     cidr        = "0.0.0.0/0"
   }
-
 }
 
 #resource "openstack_compute_keypair_v2" "jenkins" {
@@ -55,7 +54,7 @@ resource "openstack_compute_secgroup_v2" "jenkins-web" {
 
 resource "openstack_compute_instance_v2" "jenkins" {
   name            = "jenkins-pro"
-  image_name     = "TID-RH7-3NIC.20171101"
+  image_name      = "TID-RH7-3NIC.20171101"
   flavor_name     = "TID-04CPU-08GB-20GB"
   key_pair        = "passmanager"
   security_groups = ["${openstack_compute_secgroup_v2.jenkins-web.name}"]
@@ -84,19 +83,19 @@ resource "openstack_blockstorage_volume_v2" "jenkins-lib" {
 }
 
 resource "openstack_blockstorage_volume_v2" "jenkins-docker" {
-  name = "jenkins_lib"
-  size = 10
+  name = "jenkins_docker-pool"
+  size = 40
 }
 
 resource "openstack_compute_volume_attach_v2" "jenkins-lib" {
-  volume_id = "${openstack_blockstorage_volume_v2.jenkins-lib.id}"
-  device = "/dev/vdb"
+  volume_id   = "${openstack_blockstorage_volume_v2.jenkins-lib.id}"
+  device      = "/dev/vdb"
   instance_id = "${openstack_compute_instance_v2.jenkins.id}"
 }
 
 resource "openstack_compute_volume_attach_v2" "jenkins-docker" {
-  volume_id = "${openstack_blockstorage_volume_v2.jenkins-docker.id}"
-  device = "/dev/vdc"
+  volume_id   = "${openstack_blockstorage_volume_v2.jenkins-docker.id}"
+  device      = "/dev/vdc"
   instance_id = "${openstack_compute_instance_v2.jenkins.id}"
 }
 
