@@ -1,5 +1,10 @@
 variable "ost-password" {}
 
+variable "env" {
+  type    = "string"
+  default = "production"
+}
+
 variable "docker-pool-instances" {
   type = "map"
 

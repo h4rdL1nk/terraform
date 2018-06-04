@@ -85,7 +85,7 @@ resource "openstack_compute_instance_v2" "docker-pool" {
 
 resource "openstack_blockstorage_volume_v2" "opt" {
   name  = "${element(openstack_compute_instance_v2.docker-pool.*.name,count.index)}"
-  size  = 10
+  size  = "${var.env == "production" ? 10 : 30}"
   count = "${lookup(var.docker-pool-instances,"number")}"
 }
 
@@ -108,7 +108,9 @@ resource "openstack_compute_floatingip_associate_v2" "test" {
   count       = "${lookup(var.docker-pool-instances,"number")}"
 
   provisioner "local-exec" {
-    command = "ansible-playbook -e DOCKER_MGMT=${element(openstack_compute_instance_v2.docker-pool.*.network.0.fixed_ip_v4,count.index)} -e ansible_host=${element(openstack_networking_floatingip_v2.test.*.address,count.index)} -e ansible_user=cloud-user play.yml"
+    command = <<EOF
+      ansible-playbook -e DOCKER_MGMT=${element(openstack_compute_instance_v2.docker-pool.*.network.0.fixed_ip_v4,count.index)} -e ansible_host=${element(openstack_networking_floatingip_v2.test.*.address,count.index)} -e ansible_user=cloud-user play.yml
+    EOF
   }
 }
 
