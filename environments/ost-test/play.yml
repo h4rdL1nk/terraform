@@ -4,7 +4,7 @@
   hosts: all
   become: true
   tasks:
-    name: Test task
-    debug:
-      msg: "Distro {{ansible_distribution}}"
+    - name: Test task
+      debug:
+        msg: "Distro {{ansible_distribution_release}}"
 

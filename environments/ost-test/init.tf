@@ -75,7 +75,7 @@ resource "openstack_compute_instance_v2" "docker-pool" {
 
   metadata {
     environment = "test"
-    application = "test"
+    application = "docker"
   }
 
   network {
@@ -107,9 +107,9 @@ resource "openstack_compute_floatingip_associate_v2" "test" {
   fixed_ip    = "${element(openstack_compute_instance_v2.docker-pool.*.network.0.fixed_ip_v4,count.index)}"
   count       = "${lookup(var.docker-pool-instances,"number")}"
 
-  /*provisioner "local-exec" {
-    command = "ansible-playbook -e DOCKER_MGMT=${element(openstack_compute_instance_v2.docker-pool.*.network.0.fixed_id_v4,count.index)} -e ansible_host=${element(openstack_networking_floatingip_v2.test.*.address,count.index)} play.yml"
-  }*/
+  provisioner "local-exec" {
+    command = "ansible-playbook -e DOCKER_MGMT=${element(openstack_compute_instance_v2.docker-pool.*.network.0.fixed_ip_v4,count.index)} -e ansible_host=${element(openstack_networking_floatingip_v2.test.*.address,count.index)} -e ansible_user=cloud-user play.yml"
+  }
 }
 
 // END INSTANCES PROVISION BASED ON COUNT VALUES
