@@ -8,3 +8,4 @@ roles
 roles/
 inventory
 inventory/
+*.retry
