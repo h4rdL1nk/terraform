@@ -26,7 +26,8 @@ resource "openstack_compute_volume_attach_v2" "main" {
   count       = "${var.number}"
   instance_id = "${element(openstack_compute_instance_v2.main.*.id,count.index)}"
   volume_id   = "${element(openstack_blockstorage_volume_v2.main.*.id,count.index)}"
-  device      = "/dev/vdb"
+
+  //device      = "/dev/vdb"
 }
 
 resource "openstack_networking_floatingip_v2" "main" {
