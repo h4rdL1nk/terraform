@@ -12,12 +12,12 @@ module "openstack-keypair" {
   name   = "${var.env}"
 }
 
-module "security-group" {
-  source = "../../modules/openstack/security-group"
+module "ssh-security-group" {
+  source = "../../modules/openstack/security-group/ssh"
 }
 
 module "openstack-instance" {
-  source          = "../../modules/openstack/instance"
+  source          = "../../modules/openstack/cluster-instances"
   name            = "${lookup(var.docker-pool-instances,"name")}"
   number          = "${lookup(var.docker-pool-instances,"number")}"
   image_name      = "${lookup(var.docker-pool-instances,"image")}"
@@ -25,6 +25,6 @@ module "openstack-instance" {
   key_pair        = "${module.openstack-keypair.key_name}"
   environment     = "${var.env}"
   app-tag         = "${lookup(var.docker-pool-instances,"app-tag")}"
-  security-groups = ["${module.security-group.ssh-sg-name}"]
+  security-groups = ["${module.ssh-security-group.ssh-sg-name}"]
   ip-pool         = "${var.management-ip-pool}"
 }
