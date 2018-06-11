@@ -12,7 +12,7 @@ resource "openstack_compute_instance_v2" "main" {
   }
 
   network {
-    name = "DOCKER_MGMT"
+    name = "${var.network}"
   }
 }
 

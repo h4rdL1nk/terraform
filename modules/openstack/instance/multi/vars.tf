@@ -21,3 +21,5 @@ variable "devices" {
     "/dev/vdd",
   ]
 }
+
+variable "network" {}
