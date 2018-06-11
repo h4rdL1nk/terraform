@@ -7,6 +7,13 @@ provider "openstack" {
   insecure    = "true"
 }
 
+module "main-network" {
+  source          = "../../modules/openstack/networking"
+  name            = "terraform"
+  cidr            = "192.168.100.0/24"
+  external-net-id = "7dd8d467-9668-4e5a-8983-3620bd594e37"
+}
+
 module "openstack-keypair" {
   source = "../../modules/openstack/keypair"
   name   = "${var.env}"
@@ -46,12 +53,6 @@ module "backend-instance" {
 }
 */
 
-module "main-network" {
-  source = "../../modules/openstack/networking"
-  name   = "terraform"
-  cidr   = "192.168.100.0/24"
-}
-
 module "docker-pool-instances" {
   source          = "../../modules/openstack/instance/multi"
   name            = "${lookup(var.docker-pool-instances,"name")}"
@@ -67,11 +68,12 @@ module "docker-pool-instances" {
 }
 
 //Addition of extra volume for each instance created
-module "extra-volumes" {
+/*module "extra-volumes" {
   source         = "../../modules/openstack/volume/multi"
   number         = "${lookup(var.docker-pool-instances,"number")}"
   name_prefix    = "extra"
   size           = 10
   instance_ids   = "${module.docker-pool-instances.instance-ids}"
   instance_names = "${module.docker-pool-instances.instance-names}"
-}
+}*/
+
