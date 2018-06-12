@@ -36,32 +36,6 @@ module "web-security-group" {
   source = "../../modules/openstack/security-group/web"
 }
 
-/*
-module "frontend-instance" {
-  source          = "../../modules/openstack/instance/standalone"
-  name            = "webserver"
-  image_name      = "${lookup(var.docker-pool-instances,"image")}"
-  flavor_name     = "${lookup(var.docker-pool-instances,"flavor")}"
-  key_pair        = "${module.openstack-keypair.key_name}"
-  environment     = "${var.env}"
-  app-tag         = "apache"
-  security-groups = ["${module.ssh-security-group.sg-name}", "${module.web-security-group.sg-name}"]
-  ip-pool         = "${var.management-ip-pool}"
-}
-
-module "backend-instance" {
-  source          = "../../modules/openstack/instance/standalone"
-  name            = "database"
-  image_name      = "${lookup(var.docker-pool-instances,"image")}"
-  flavor_name     = "${lookup(var.docker-pool-instances,"flavor")}"
-  key_pair        = "${module.openstack-keypair.key_name}"
-  environment     = "${var.env}"
-  app-tag         = "mongodb"
-  security-groups = ["${module.ssh-security-group.sg-name}"]
-  ip-pool         = "${var.management-ip-pool}"
-}
-*/
-
 module "docker-pool-instances" {
   source          = "../../modules/openstack/instance/multi"
   name            = "${lookup(var.docker-pool-instances,"name")}"
