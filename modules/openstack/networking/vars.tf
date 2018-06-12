@@ -10,4 +10,5 @@ variable "subnets" {
 variable "cidr" {}
 
 variable "name" {}
+
 variable "external-net-id" {}

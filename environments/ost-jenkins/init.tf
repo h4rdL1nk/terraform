@@ -8,7 +8,7 @@ provider "openstack" {
 }
 
 resource "openstack_compute_secgroup_v2" "jenkins-web" {
-  name        = "jenkins-web"
+  name        = "jenkins-web-access"
   description = "Jenkins instance web access"
 
   rule {
@@ -53,9 +53,11 @@ resource "openstack_compute_secgroup_v2" "jenkins-web" {
 #}
 
 resource "openstack_compute_instance_v2" "jenkins" {
-  name            = "jenkins-pro"
-  image_name      = "TID-RH7-3NIC.20171101"
-  flavor_name     = "TID-04CPU-08GB-20GB"
+  name       = "jenkins-pro-test"
+  image_name = "TID-RH7-1NIC.20171006"
+
+  //flavor_name     = "TID-06CPU-32GB-20GB"
+  flavor_name     = "TID-01CPU-04GB-20GB"
   key_pair        = "passmanager"
   security_groups = ["${openstack_compute_secgroup_v2.jenkins-web.name}"]
 
@@ -68,13 +70,13 @@ resource "openstack_compute_instance_v2" "jenkins" {
     name = "DOCKER_MGMT"
   }
 
-  network {
+  /*network {
     name = "DOCKER_INET"
   }
 
   network {
     name = "DOCKER_BACKEND"
-  }
+  }*/
 }
 
 resource "openstack_blockstorage_volume_v2" "jenkins-lib" {
@@ -108,7 +110,7 @@ resource "openstack_compute_floatingip_associate_v2" "jenkins" {
   instance_id = "${openstack_compute_instance_v2.jenkins.id}"
   fixed_ip    = "${openstack_compute_instance_v2.jenkins.network.0.fixed_ip_v4}"
 
-  provisioner "local-exec" {
-    command = "ansible-playbook -e DOCKER_MGMT=${openstack_compute_instance_v2.jenkins.network.0.fixed_ip_v4} -e ansible_host=${openstack_networking_floatingip_v2.jenkins.address} play.yml"
-  }
+  //provisioner "local-exec" {
+  //  command = "ansible-playbook -e DOCKER_MGMT=${openstack_compute_instance_v2.jenkins.network.0.fixed_ip_v4} -e ansible_host=${openstack_networking_floatingip_v2.jenkins.address} play.yml"
+  //}
 }

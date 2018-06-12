@@ -3,6 +3,15 @@ variable "ost-password" {}
 
 variable "ost-user" {}
 
+variable "subnets" {
+  type = "map"
+
+  default = {
+    number = 2
+    bits   = 3
+  }
+}
+
 //Management IP pool
 variable "management-ip-pool" {
   type    = "string"
@@ -25,13 +34,5 @@ variable "docker-pool-instances" {
     flavor  = "TID-01CPU-01GB-20GB"
     image   = "TID-RH7-3NIC.20171101"
     app-tag = "docker"
-  }
-}
-
-variable "docker-instances-meta" {
-  type = "map"
-
-  default = {
-    application = "docker"
   }
 }

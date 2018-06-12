@@ -7,12 +7,16 @@ resource "openstack_compute_instance_v2" "main" {
   security_groups = ["${var.security-groups}"]
 
   metadata {
-    environment = "${var.environment}"
-    application = "${var.app-tag}"
+    Env  = "${var.environment}"
+    Role = "${var.app-tag}"
   }
 
   network {
-    name = "${var.network}"
+    name = "${var.mgmt-network}"
+  }
+
+  network {
+    name = "${var.inet-network}"
   }
 }
 

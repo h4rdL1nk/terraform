@@ -1,7 +1,7 @@
 ---
 
 - name: Config passmanager host 
-  hosts: jenkins-pro 
+  hosts: jenkins-pro
   become: true
   vars_files:
     - vars/repos.yml
@@ -16,6 +16,8 @@
          smd_boostrap_role_update_so_enabled: false
        } 
      - { role: ansible-role-smd-docker,
+         smd_docker_proxy: 'http://proxy2pdi.service.dsn.inet:6666',
+         smd_docker_lvm_config: false,
          smd_docker_storage_device: /dev/vdc,
          smd_docker_bind_network: DOCKER_MGMT,
          smd_docker_bind_port: 2376

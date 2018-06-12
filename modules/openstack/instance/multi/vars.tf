@@ -22,4 +22,5 @@ variable "devices" {
   ]
 }
 
-variable "network" {}
+variable "mgmt-network" {}
+variable "inet-network" {}

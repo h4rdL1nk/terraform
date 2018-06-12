@@ -7,11 +7,20 @@ provider "openstack" {
   insecure    = "true"
 }
 
-module "main-network" {
+module "mgmt-network" {
   source          = "../../modules/openstack/networking"
-  name            = "terraform"
+  name            = "terraform-mgmt"
   cidr            = "192.168.100.0/24"
   external-net-id = "7dd8d467-9668-4e5a-8983-3620bd594e37"
+  subnets         = "${var.subnets}"
+}
+
+module "inet-network" {
+  source          = "../../modules/openstack/networking"
+  name            = "terraform-inet"
+  cidr            = "192.168.200.0/24"
+  external-net-id = "72ee3aab-e02a-4572-af36-f5e36a475430"
+  subnets         = "${var.subnets}"
 }
 
 module "openstack-keypair" {
@@ -63,7 +72,8 @@ module "docker-pool-instances" {
   environment     = "${var.env}"
   app-tag         = "${lookup(var.docker-pool-instances,"app-tag")}"
   security-groups = ["${module.ssh-security-group.sg-name}"]
-  network         = "${module.main-network.network-name}"
+  mgmt-network    = "${module.mgmt-network.network-name}"
+  inet-network    = "${module.inet-network.network-name}"
   ip-pool         = "${var.management-ip-pool}"
 }
 
