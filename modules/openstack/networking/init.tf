@@ -10,11 +10,12 @@ resource "openstack_networking_network_v2" "networks" {
 }
 
 resource "openstack_networking_subnet_v2" "subnets" {
-  count      = "${lookup(var.subnets,"number")}"
-  name       = "subnet-${openstack_networking_network_v2.networks.name}-${count.index}"
-  network_id = "${openstack_networking_network_v2.networks.id}"
-  cidr       = "${cidrsubnet("${var.cidr}","${lookup(var.subnets,"bits")}",count.index)}"
-  ip_version = 4
+  count           = "${lookup(var.subnets,"number")}"
+  name            = "subnet-${openstack_networking_network_v2.networks.name}-${count.index}"
+  network_id      = "${openstack_networking_network_v2.networks.id}"
+  cidr            = "${cidrsubnet("${var.cidr}","${lookup(var.subnets,"bits")}",count.index)}"
+  dns_nameservers = ["${var.dns-nameservers}"]
+  ip_version      = 4
 }
 
 resource "openstack_networking_router_interface_v2" "router-interfaces" {

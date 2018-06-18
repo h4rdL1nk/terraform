@@ -47,18 +47,18 @@ resource "openstack_compute_secgroup_v2" "jenkins-web" {
   }
 }
 
-#resource "openstack_compute_keypair_v2" "jenkins" {
-#  name       = "jenkins"
-#  public_key = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQClk2d4WxqTh7/P6MkDF5Ytyqe4kpJ4BK44J64xI9hINVwE+Bb2Dujej5FSmtZHwYirNX4JxUoCkwIuTphpo6zeqzOxq/Wz6bXm6CCoZ2b+MUTDrsCeBg7vpCeLcCa4DvdTU6ejXr3eqfWCY8NSIOIOdNFL/vw3nbdSpM7hb0DYcihtI8BDY5FJAV2iBCV31Eiq5/gXGBI0pDzpSPqz3euau9eDtjBkZGwq4VXkWSsYFYkTZzu4/ejA+B4yZo459e7gFOKe4a2L1wJ23HDBceUH6Y3ieeFiF9VQ0u/egTCEYkmL8p//u2nuU3ifEcAL15P9BLlBmrZjg725TZlocH0v"
-#}
+resource "openstack_compute_keypair_v2" "jenkins" {
+  name       = "jenkins-keypair"
+  public_key = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDFNX+IDFYG+s3BHxkVwtBmW3GtXNVNQK39UJXOLpQQ+xkruaxL+/+gIXXaHdUm2v9rFumPtd2cSXKVM1xN0gKZAo6hmdHKNnkTUbinkVOw4N+Knm6+UF8ChbtZCCtPtPA1aF7HehgIBtBEUyffxk7aX308tgp1Z3yu9IzomXyMEeL/x+BYhtfNbgJ+HbFIDwSIIvqNQso2Dx25FFShPT+4DmkbTwXSOAmcZNarb0yVg1CkPvj4uWreWjLY4ZJmUuLamMkenzYiD0whtqOqhgT77HCLc1HKJJ+jmowSBxXpuphbePs1bSCxcratKIdPLds4LfRm5+XYjPFDw/VUOC+Z"
+}
 
 resource "openstack_compute_instance_v2" "jenkins" {
   name       = "jenkins-pro-test"
-  image_name = "TID-RH7-1NIC.20171006"
+  image_name = "TID-RH75.20180601"
 
   //flavor_name     = "TID-06CPU-32GB-20GB"
   flavor_name     = "TID-01CPU-04GB-20GB"
-  key_pair        = "passmanager"
+  key_pair        = "${openstack_compute_keypair_v2.jenkins.name}"
   security_groups = ["${openstack_compute_secgroup_v2.jenkins-web.name}"]
 
   metadata {
@@ -70,13 +70,13 @@ resource "openstack_compute_instance_v2" "jenkins" {
     name = "DOCKER_MGMT"
   }
 
-  /*network {
+  network {
     name = "DOCKER_INET"
   }
 
   network {
     name = "DOCKER_BACKEND"
-  }*/
+  }
 }
 
 resource "openstack_blockstorage_volume_v2" "jenkins-lib" {

@@ -12,6 +12,15 @@ variable "subnets" {
   }
 }
 
+variable "default-nameservers" {
+  type = "list"
+
+  default = [
+    "10.95.121.180",
+    "10.95.48.36",
+  ]
+}
+
 //Management IP pool
 variable "management-ip-pool" {
   type    = "string"
@@ -32,7 +41,7 @@ variable "docker-pool-instances" {
     name    = "docker-pool"
     number  = 3
     flavor  = "TID-01CPU-01GB-20GB"
-    image   = "TID-RH7-3NIC.20171101"
+    image   = "TID-RH75.20180601"
     app-tag = "docker"
   }
 }

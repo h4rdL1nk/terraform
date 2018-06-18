@@ -10,17 +10,19 @@ provider "openstack" {
 module "mgmt-network" {
   source          = "../../modules/openstack/networking"
   name            = "terraform-mgmt"
-  cidr            = "192.168.100.0/24"
+  cidr            = "192.168.2.0/24"
   external-net-id = "7dd8d467-9668-4e5a-8983-3620bd594e37"
   subnets         = "${var.subnets}"
+  dns-nameservers = ["${var.default-nameservers}"]
 }
 
 module "inet-network" {
   source          = "../../modules/openstack/networking"
   name            = "terraform-inet"
-  cidr            = "192.168.200.0/24"
+  cidr            = "192.168.3.0/24"
   external-net-id = "72ee3aab-e02a-4572-af36-f5e36a475430"
   subnets         = "${var.subnets}"
+  dns-nameservers = ["${var.default-nameservers}"]
 }
 
 module "openstack-keypair" {
